@@ -3,11 +3,11 @@ package com.example.drplip;
 import android.app.Activity;
 import android.os.AsyncTask;
 
-import com.google.cloud.dialogflow.v2beta1.DetectIntentRequest;
-import com.google.cloud.dialogflow.v2beta1.DetectIntentResponse;
-import com.google.cloud.dialogflow.v2beta1.QueryInput;
-import com.google.cloud.dialogflow.v2beta1.SessionName;
-import com.google.cloud.dialogflow.v2beta1.SessionsClient;
+import com.google.cloud.dialogflow.v2.DetectIntentRequest;
+import com.google.cloud.dialogflow.v2.DetectIntentResponse;
+import com.google.cloud.dialogflow.v2.QueryInput;
+import com.google.cloud.dialogflow.v2.SessionName;
+import com.google.cloud.dialogflow.v2.SessionsClient;
 
 
 public class RequestJavaV2Task extends AsyncTask<Void, Void, DetectIntentResponse> {
@@ -39,8 +39,15 @@ public class RequestJavaV2Task extends AsyncTask<Void, Void, DetectIntentRespons
         return null;
     }
 
+    @Override
+    protected void onPostExecute(DetectIntentResponse response) {
+        ((MainActivity) activity).callbackV2(response);
+    }
+
 //    @Override
 //    protected void onPostExecute(DetectIntentResponse response) {
-//        ((MainActivity) activity).callbackV2(response);
+//        if (response != null) {
+//            String botReply = response.getQueryResult().getFulfillmentText();
+//        }
 //    }
 }

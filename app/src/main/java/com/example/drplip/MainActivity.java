@@ -3,6 +3,7 @@ package com.example.drplip;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,14 +19,17 @@ import android.widget.Toast;
 import com.google.api.gax.core.FixedCredentialsProvider;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.auth.oauth2.ServiceAccountCredentials;
+import com.google.cloud.dialogflow.v2.DetectIntentResponse;
 import com.google.cloud.dialogflow.v2.QueryInput;
 import com.google.cloud.dialogflow.v2.SessionName;
 import com.google.cloud.dialogflow.v2.SessionsClient;
 import com.google.cloud.dialogflow.v2.SessionsSettings;
 import com.google.cloud.dialogflow.v2.TextInput;
 
+
 import java.io.InputStream;
 import java.util.UUID;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -60,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
 
         queryEditText = findViewById(R.id.queryEditText);
         //set an onclick listener
+        initV2Chatbot();
     }
 
     private void initV2Chatbot() {
@@ -90,6 +95,19 @@ public class MainActivity extends AppCompatActivity {
             new RequestJavaV2Task(MainActivity.this, session, sessionsClient, queryInput).execute();
         }
     }
+
+    public void callbackV2(DetectIntentResponse response) {
+        if (response != null) {
+            // process aiResponse here
+            String botReply = response.getQueryResult().getFulfillmentText();
+            Log.d(TAG, "V2 Bot Reply: " + botReply);
+            showTextView(botReply, BOT);
+        } else {
+            Log.d(TAG, "Bot Reply: Null");
+            showTextView("There was some communication issue. Please Try again!", BOT);
+        }
+    }
+
 
     private void showTextView(String message, int type) {
         FrameLayout layout;
