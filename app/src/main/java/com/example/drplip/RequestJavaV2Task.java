@@ -22,6 +22,7 @@ public class RequestJavaV2Task extends AsyncTask<Void, Void, DetectIntentRespons
         this.session = session;
         this.sessionsClient = sessionsClient;
         this.queryInput = queryInput;
+
     }
 
     @Override

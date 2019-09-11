@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+
     <RelativeLayout
         android:id="@+id/inputLayout"
         android:layout_width="match_parent"
@@ -42,6 +43,9 @@
 
     </RelativeLayout>
 
+
+
+
     <ScrollView
         android:id="@+id/chatScrollView"
         android:layout_width="match_parent"
@@ -57,6 +61,15 @@
 
     </ScrollView>
 
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/micro2"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="130dp"
+        android:layout_marginTop="20dp"
+        android:onClick="getSpeechInput"
+        />
 
 
 </RelativeLayout>
