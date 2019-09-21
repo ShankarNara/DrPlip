@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "67860951567",
+    "firebase_url": "https://drplip-23bfe.firebaseio.com",
+    "project_id": "drplip-23bfe",
+    "storage_bucket": "drplip-23bfe.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:67860951567:android:e5eb2f27ff6095ccc9a97a",
+        "android_client_info": {
+          "package_name": "com.example.drplip"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "67860951567-p5k26dnan7c93kqld3hrkoptaq8kqsjg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.drplip",
+            "certificate_hash": "78fd62ccc86771ecb9fce293e36d712225b45893"
+          }
+        },
+        {
+          "client_id": "67860951567-onm3sp9731gbjn6vmi4bvic6nm874ccv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB-XlAbCRnasb4a02a74tKS-XzLvCeR5X8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "67860951567-onm3sp9731gbjn6vmi4bvic6nm874ccv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
