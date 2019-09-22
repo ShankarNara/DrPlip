@@ -35,12 +35,15 @@ import com.google.cloud.dialogflow.v2.SessionName;
 import com.google.cloud.dialogflow.v2.SessionsClient;
 import com.google.cloud.dialogflow.v2.SessionsSettings;
 import com.google.cloud.dialogflow.v2.TextInput;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.gson.Gson;
 
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 import java.util.UUID;
 
 //import android.content.Intent;
@@ -62,13 +65,75 @@ public class MainActivity extends AppCompatActivity {
     private SessionName session;
 
     Convo c;
-
+    User u;
     @Override
     protected void onStart() {
         super.onStart();
+        init();
+
 
     }
+    void getName(){
+        String url = "https://dh1n3sh.pythonanywhere.com/users/get";
+        Map<String,String> data = new HashMap<>();
+        data.put("id",FirebaseAuth.getInstance().getCurrentUser().getUid());
+        final Gson g = new Gson();
+        final String mRequestBody = g.toJson(data);
 
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                u = g.fromJson(response,User.class);
+                String strt="startNormal",id = FirebaseAuth.getInstance().getUid();
+                QueryInput queryInput = QueryInput.newBuilder().setText(TextInput.newBuilder().setText(u.getName()).setLanguageCode("en-US")).build();
+                new RequestJavaV2Task(MainActivity.this, session, sessionsClient, queryInput).execute();
+                queryInput = QueryInput.newBuilder().setText(TextInput.newBuilder().setText(strt).setLanguageCode("en-US")).build();
+                new RequestJavaV2Task(MainActivity.this, session, sessionsClient, queryInput).execute();
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("LOG_VOLLEY", error.toString());
+            }
+        }) {
+            @Override
+            public String getBodyContentType() {
+                return "application/json; charset=utf-8";
+            }
+
+            @Override
+            public byte[] getBody() throws AuthFailureError {
+                try {
+                    return mRequestBody == null ? null : mRequestBody.getBytes("utf-8");
+                } catch (UnsupportedEncodingException uee) {
+                    VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s", mRequestBody, "utf-8");
+                    return null;
+                }
+            }
+
+//            @Override
+//            protected Response<String> parseNetworkResponse(NetworkResponse response) {
+//                String responseString = "";
+//                if (response != null) {
+//
+//                    responseString = String.valueOf(response.statusCode);
+//
+//                }
+//                return Response.success(responseString, HttpHeaderParser.parseCacheHeaders(response));
+//            }
+        };
+        queue.add(stringRequest);
+
+    }
+    void init(){
+        String msg = "qname";
+        QueryInput queryInput = QueryInput.newBuilder().setText(TextInput.newBuilder().setText(msg).setLanguageCode("en-US")).build();
+        new RequestJavaV2Task(MainActivity.this, session, sessionsClient, queryInput).execute();
+        getName();
+
+
+    }
     void Upload(Convo m){
 
         String url ="https://dh1n3sh.pythonanywhere.com/post";
@@ -148,7 +213,7 @@ public class MainActivity extends AppCompatActivity {
             SessionsSettings.Builder settingsBuilder = SessionsSettings.newBuilder();
             SessionsSettings sessionsSettings = settingsBuilder.setCredentialsProvider(FixedCredentialsProvider.create(credentials)).build();
             sessionsClient = SessionsClient.create(sessionsSettings);
-            session = SessionName.of(projectId, uuid);
+            session = SessionName.of(projectId, FirebaseAuth.getInstance().getCurrentUser().getUid());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -162,7 +227,7 @@ public class MainActivity extends AppCompatActivity {
             showTextView(msg, USER);
             queryEditText.setText("");
 //            c = new Convo(Timestamp.now(), FirebaseAuth.getInstance().getUid(),msg,"");
-            c = new Convo(Timestamp.now(), "123",msg,"");
+            c = new Convo(Timestamp.now(), FirebaseAuth.getInstance().getCurrentUser().getUid(),msg,"");
             // Java V2
             QueryInput queryInput = QueryInput.newBuilder().setText(TextInput.newBuilder().setText(msg).setLanguageCode("en-US")).build();
             new RequestJavaV2Task(MainActivity.this, session, sessionsClient, queryInput).execute();
@@ -174,13 +239,20 @@ public class MainActivity extends AppCompatActivity {
             // process aiResponse here
             String botReply = response.getQueryResult().getFulfillmentText();
             Log.d(TAG, "V2 Bot Reply: " + botReply);
-            showTextView(botReply, BOT);
-            c.setResponse(botReply);
-            Upload(c);
+            try {
+                if (botReply != null && !botReply.isEmpty()) {
+                    showTextView(botReply, BOT);
+                    c.setResponse(botReply);
+                    Upload(c);
+                } else {
+                    Log.d(TAG, "Bot Reply: Null");
+//                    showTextView("There was some communication issue. Please Try again!", BOT);
+                }
+            }
+        catch(Exception e)
+            {
 
-        } else {
-            Log.d(TAG, "Bot Reply: Null");
-            showTextView("There was some communication issue. Please Try again!", BOT);
+            }
         }
     }
 

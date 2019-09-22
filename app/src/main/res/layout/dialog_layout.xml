@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <EditText
+        android:id="@+id/name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:hint="Name"
+        android:inputType="text"
+        android:textAlignment="center"
+        android:textSize="24sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/name"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="207dp"
+        android:layout_marginTop="15dp"
+        android:text="Age"
+        android:textAlignment="center"
+        android:textSize="22sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/name"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="56dp"
+        android:layout_marginTop="16dp"
+        android:text="Gender"
+        android:textAlignment="center"
+        android:textSize="22sp" />
+
+    <EditText
+        android:id="@+id/age"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/name"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="193dp"
+        android:layout_marginTop="53dp"
+        android:inputType="number"
+        android:textSize="20sp" />
+
+    <Switch
+        android:id="@+id/gen"
+        android:layout_width="100dp"
+        android:layout_height="20dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="47dp"
+        android:layout_marginTop="149dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/name"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="55dp"
+        android:text="M"
+        android:textSize="20sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/name"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="163dp"
+        android:layout_marginTop="56dp"
+        android:text="F"
+        android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/go"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_below="@+id/name"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="118dp"
+        android:text="Go" />
+    <!--        android:layout_marginLeft="174dp"-->
+<!--        android:layout_marginTop="29dp"-->
+<!--        android:layout_toRightOf="@id/age" />-->
+
+</RelativeLayout>
